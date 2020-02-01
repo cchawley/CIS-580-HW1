@@ -26,6 +26,7 @@ namespace MonoGameWindowsStarter
         }
     }
 
+    /*
     public BoundingRectangle(float x, float y, float width, float height)
     {
         this.X = x;
@@ -33,4 +34,5 @@ namespace MonoGameWindowsStarter
         this.Width = width;
         this.Height = height;
     }
+    */
 }

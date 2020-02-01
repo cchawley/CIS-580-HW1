@@ -11,6 +11,7 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D GreenBall;
 
         public Game1()
         {
@@ -29,6 +30,9 @@ namespace MonoGameWindowsStarter
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -41,6 +45,8 @@ namespace MonoGameWindowsStarter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            GreenBall = Content.Load<Texture2D>("green ball");    // load in green ball
+
         }
 
         /// <summary>
@@ -76,6 +82,9 @@ namespace MonoGameWindowsStarter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(GreenBall, new Rectangle(100, 100, 100, 100), Color.White);   //draw green ball
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
