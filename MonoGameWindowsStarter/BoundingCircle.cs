@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameWindowsStarter
 {
-    public struct BoundingCircle
+    public struct BoundingCircle                    //creates a circle which will be able to tell us when it is interacting with other objects
     {
         public float X;
         public float Y;
