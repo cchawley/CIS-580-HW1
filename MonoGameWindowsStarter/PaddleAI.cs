@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MonoGameWindowsStarter
 {
-    public class Paddle
+    public class PaddleAI
     {
         Game1 game;
 
@@ -22,7 +22,7 @@ namespace MonoGameWindowsStarter
         /// Creates a paddle
         /// </summary>
         /// <param name="game">Reference to the game the paddle belongs to</param>
-        public Paddle(Game1 game)
+        public PaddleAI(Game1 game)
         {
             this.game = game;
         }
@@ -32,7 +32,7 @@ namespace MonoGameWindowsStarter
             texture = content.Load<Texture2D>("pixel");
             bounds.Width = 50;
             bounds.Height = 200;
-            bounds.X = 0;
+            bounds.X = 1549;
             bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - bounds.Height / 2;
         }
 
@@ -40,16 +40,17 @@ namespace MonoGameWindowsStarter
         {
             var newKeyboardState = Keyboard.GetState();
 
-            
-            if (newKeyboardState.IsKeyDown(Keys.Up))
+            /*
+            if ()           //if the balls Y position is less than the paddles Y, then move paddle up
             {
                 bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
 
-            if (newKeyboardState.IsKeyDown(Keys.Down))
+            if ()           //if the balls Y position is greater than the paddles Y, then move paddle down
             {
                 bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
+            */
 
             if (bounds.Y < 0)
             {
@@ -64,7 +65,7 @@ namespace MonoGameWindowsStarter
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, bounds, Color.Blue);
+            spriteBatch.Draw(texture, bounds, Color.DarkRed);
         }
     }
 }
