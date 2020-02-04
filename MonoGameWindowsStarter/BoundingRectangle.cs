@@ -17,6 +17,7 @@ namespace MonoGameWindowsStarter
         public float Width;
         public float Height;
 
+        /*
         public bool CollidesWith(BoundingRectangle other)  //gives the rectangle the property to check and see if it is interacting with any other object
         {
             return !(this.X < other.X + other.Width
@@ -24,15 +25,19 @@ namespace MonoGameWindowsStarter
                 || this.Y > other.Y + other.Height
                 || this.Y + this.Height < other.Y);
         }
+        */
+        public BoundingRectangle(float x, float y, float width, float height)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Width = width;
+            this.Height = height;
+        }
+
+        public static implicit operator Rectangle(BoundingRectangle br)
+        {
+            return new Rectangle((int)br.X, (int)br.Y, (int)br.Width, (int)br.Height);
+        }
     }
 
-    /*
-    public BoundingRectangle(float x, float y, float width, float height)
-    {
-        this.X = x;
-        this.Y = y;
-        this.Width = width;
-        this.Height = height;
-    }
-    */
 }
