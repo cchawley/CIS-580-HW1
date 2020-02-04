@@ -13,7 +13,7 @@ namespace MonoGameWindowsStarter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D GreenBall;
-        Vector2 ballPosition = Vector2.Zero; 
+        public Vector2 ballPosition = Vector2.Zero; 
         Vector2 ballVelocity;
         Paddle paddle;  //player paddle
         PaddleAI AIpaddle; //enemy paddle

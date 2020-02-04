@@ -13,6 +13,7 @@ namespace MonoGameWindowsStarter
     public class PaddleAI
     {
         Game1 game;
+        
 
         Texture2D texture;
 
@@ -32,7 +33,7 @@ namespace MonoGameWindowsStarter
             texture = content.Load<Texture2D>("pixel");
             bounds.Width = 50;
             bounds.Height = 200;
-            bounds.X = 1549;
+            bounds.X = 1550;
             bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - bounds.Height / 2;
         }
 
@@ -40,17 +41,17 @@ namespace MonoGameWindowsStarter
         {
             var newKeyboardState = Keyboard.GetState();
 
-            /*
-            if ()           //if the balls Y position is less than the paddles Y, then move paddle up
+
+            if (game.ballPosition.Y < bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
             {
-                bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.5;
             }
 
-            if ()           //if the balls Y position is greater than the paddles Y, then move paddle down
+            if (game.ballPosition.Y > bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
             {
-                bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.5;
             }
-            */
+            
 
             if (bounds.Y < 0)
             {
