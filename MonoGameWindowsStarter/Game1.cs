@@ -13,6 +13,10 @@ namespace MonoGameWindowsStarter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D GreenBall;
+        Texture2D YouWin;     //variable for the you win text
+        Rectangle win;
+        Texture2D YouLose;     //variable for the you lose text
+        Rectangle lose;
         public Vector2 ballPosition = Vector2.Zero; 
         Vector2 ballVelocity;
         Paddle paddle;  //player paddle
@@ -51,6 +55,17 @@ namespace MonoGameWindowsStarter
             );
             ballVelocity.Normalize();
 
+            win.X = 0;
+            win.Y = 0;
+            win.Width = 50;
+            win.Height = 100;
+
+            lose.X = 0;
+            lose.Y = 0;
+            lose.Width = 50;
+            lose.Height = 100;
+
+
             base.Initialize();
         }
 
@@ -67,6 +82,9 @@ namespace MonoGameWindowsStarter
             GreenBall = Content.Load<Texture2D>("green ball");    // load in green ball
             paddle.LoadContent(Content);                   //load in the pixel paddle
             AIpaddle.LoadContent(Content);                //load in the enemy pixel paddle
+            YouWin = Content.Load<Texture2D>("You_win");     //load in the you win texture
+            YouLose = Content.Load<Texture2D>("game_over");  //load in the you lose texture
+            
         }
 
         /// <summary>
@@ -93,7 +111,7 @@ namespace MonoGameWindowsStarter
 
             paddle.Update(gameTime);
             AIpaddle.Update(gameTime);
-            ballPosition += (float)gameTime.ElapsedGameTime.TotalMilliseconds * ballVelocity;
+            ballPosition += (float)gameTime.ElapsedGameTime.TotalMilliseconds * ballVelocity * (float)1.5;
 
             //wall Collision checks as follows for ball
             if (ballPosition.Y < 0)
@@ -155,6 +173,16 @@ namespace MonoGameWindowsStarter
             spriteBatch.Draw(GreenBall, new Rectangle((int)ballPosition.X, (int)ballPosition.Y, 100, 100), Color.White);   //draw green ball 
             paddle.Draw(spriteBatch);
             AIpaddle.Draw(spriteBatch);
+            if(GameState == 1)  //if you have won, draw the you win
+            {
+                spriteBatch.Draw(YouWin, win, Color.White);
+            }
+
+            if (GameState == 2) //if you have lost, draw the you lose
+            {
+                spriteBatch.Draw(YouLose, lose, Color.White);
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
