@@ -55,12 +55,12 @@ namespace MonoGameWindowsStarter
             );
             ballVelocity.Normalize();
 
-            win.X = 400;
+            win.X = 400;        //sizing and screen positioning for the win text
             win.Y = 250;
             win.Width = 800;
             win.Height = 500;
 
-            lose.X = 400;
+            lose.X = 400;          //sizing and screen positioning for the lose text
             lose.Y = 250;
             lose.Width = 800;
             lose.Height = 500;
