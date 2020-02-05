@@ -41,17 +41,18 @@ namespace MonoGameWindowsStarter
         {
             var newKeyboardState = Keyboard.GetState();
 
-
-            if (game.ballPosition.Y < bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
+            if (game.GameState == 0)  //if the game is still going, keeps moving. Stops moving if game is over
             {
-                bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.75;
-            }
+                if (game.ballPosition.Y < bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
+                {
+                    bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.75;
+                }
 
-            if (game.ballPosition.Y > bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
-            {
-                bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.5;
+                if (game.ballPosition.Y > bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
+                {
+                    bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.5;
+                }
             }
-            
 
             if (bounds.Y < 0)
             {

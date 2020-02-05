@@ -40,15 +40,17 @@ namespace MonoGameWindowsStarter
         {
             var newKeyboardState = Keyboard.GetState();
 
-            
-            if (newKeyboardState.IsKeyDown(Keys.Up))
-            {
-                bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            }
+            if (game.GameState == 0)     //if the game is still going, movement is still enabled. Stops enabling movement if game is over
+            {  
+                if (newKeyboardState.IsKeyDown(Keys.Up))
+                {
+                    bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
 
-            if (newKeyboardState.IsKeyDown(Keys.Down))
-            {
-                bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (newKeyboardState.IsKeyDown(Keys.Down))
+                {
+                    bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
             }
 
             if (bounds.Y < 0)

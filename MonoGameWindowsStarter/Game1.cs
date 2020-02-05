@@ -21,7 +21,7 @@ namespace MonoGameWindowsStarter
         Vector2 ballVelocity;
         Paddle paddle;  //player paddle
         PaddleAI AIpaddle; //enemy paddle
-        int GameState = 0;   //used to track if the player has won or lost. Will be changed to a 1 when the ball hits the right boundary (win) and a 2 if it hits the left boundary (loss)
+        public int GameState = 0;   //used to track if the player has won or lost. Will be changed to a 1 when the ball hits the right boundary (win) and a 2 if it hits the left boundary (loss)
 
         KeyboardState oldKeyboardState;
         KeyboardState newKeyboardState;
@@ -60,10 +60,10 @@ namespace MonoGameWindowsStarter
             win.Width = 50;
             win.Height = 100;
 
-            lose.X = 0;
-            lose.Y = 0;
-            lose.Width = 50;
-            lose.Height = 100;
+            lose.X = 800;
+            lose.Y = 500;
+            lose.Width = 800;
+            lose.Height = 500;
 
 
             base.Initialize();
@@ -112,6 +112,12 @@ namespace MonoGameWindowsStarter
             paddle.Update(gameTime);
             AIpaddle.Update(gameTime);
             ballPosition += (float)gameTime.ElapsedGameTime.TotalMilliseconds * ballVelocity * (float)1.5;
+
+            if (GameState == 1 || GameState == 2)
+            {
+                ballVelocity.X = 0;
+                ballVelocity.Y = 0;
+            }
 
             //wall Collision checks as follows for ball
             if (ballPosition.Y < 0)
