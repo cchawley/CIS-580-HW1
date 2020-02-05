@@ -55,13 +55,13 @@ namespace MonoGameWindowsStarter
             );
             ballVelocity.Normalize();
 
-            win.X = 0;
-            win.Y = 0;
-            win.Width = 50;
-            win.Height = 100;
+            win.X = 400;
+            win.Y = 250;
+            win.Width = 800;
+            win.Height = 500;
 
-            lose.X = 800;
-            lose.Y = 500;
+            lose.X = 400;
+            lose.Y = 250;
             lose.Width = 800;
             lose.Height = 500;
 
