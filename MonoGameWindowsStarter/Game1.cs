@@ -124,8 +124,8 @@ namespace MonoGameWindowsStarter
             if (AIpaddle.bounds.CollidesWith(ball.Bounds))
             {
                 ball.Velocity.X *= -1;
-                var delta = (AIpaddle.bounds.X + AIpaddle.bounds.Width) - (ball.Bounds.X + ball.Bounds.Radius);
-                ball.Bounds.X += -2 * delta;
+                var delta = (AIpaddle.bounds.X - AIpaddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
+                ball.Bounds.X += 2 * delta;
             }
 
             if (GameState == 0)  //if the game is still going, keeps moving. Stops moving if game is over
