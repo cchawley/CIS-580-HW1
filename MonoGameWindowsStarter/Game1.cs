@@ -22,6 +22,8 @@ namespace MonoGameWindowsStarter
         Paddle paddle;  //player paddle
         PaddleAI AIpaddle; //enemy paddle
         public int GameState = 0;   //used to track if the player has won or lost. Will be changed to a 1 when the ball hits the right boundary (win) and a 2 if it hits the left boundary (loss)
+        public Random Random = new Random();
+        Ball ball;  //used to create a ball using the Ball class
 
         KeyboardState oldKeyboardState;
         KeyboardState newKeyboardState;
@@ -32,6 +34,7 @@ namespace MonoGameWindowsStarter
             Content.RootDirectory = "Content";
             paddle = new Paddle(this);
             AIpaddle = new PaddleAI(this);
+            ball = new Ball(this);
         }
 
         /// <summary>
@@ -44,16 +47,14 @@ namespace MonoGameWindowsStarter
         {
             // TODO: Add your initialization logic here
 
-            Random random = new Random();
+            
             graphics.PreferredBackBufferWidth = 1600;
             graphics.PreferredBackBufferHeight = 1000;
             graphics.ApplyChanges();
 
-            ballVelocity = new Vector2(     //gives velocity to the ball
-                (float)random.NextDouble(),
-                (float)random.NextDouble()
-            );
-            ballVelocity.Normalize();
+            ball.Initialize();
+            paddle.Initialize();
+            AIpaddle.Initialize();
 
             win.X = 400;        //sizing and screen positioning for the win text
             win.Y = 250;
@@ -79,7 +80,7 @@ namespace MonoGameWindowsStarter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            GreenBall = Content.Load<Texture2D>("green ball");    // load in green ball
+            ball.LoadContent(Content);    // load in green ball
             paddle.LoadContent(Content);                   //load in the pixel paddle
             AIpaddle.LoadContent(Content);                //load in the enemy pixel paddle
             YouWin = Content.Load<Texture2D>("You_win");     //load in the you win texture
@@ -109,57 +110,39 @@ namespace MonoGameWindowsStarter
 
             // TODO: Add your update logic here
 
+            ball.Update(gameTime);
             paddle.Update(gameTime);
             AIpaddle.Update(gameTime);
-            ballPosition += (float)gameTime.ElapsedGameTime.TotalMilliseconds * ballVelocity * (float)1.5;
 
-            if (GameState == 1 || GameState == 2)
+            if (paddle.bounds.CollidesWith(ball.Bounds)) //if the player paddle collides with the ball, the ball bounces off
             {
-                ballVelocity.X = 0;
-                ballVelocity.Y = 0;
+                ball.Velocity.X *= -1;
+                var delta = (paddle.bounds.X + paddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
+                ball.Bounds.X += 2 * delta;
             }
 
-            //wall Collision checks as follows for ball
-            if (ballPosition.Y < 0)
+            if (AIpaddle.bounds.CollidesWith(ball.Bounds))
             {
-                ballVelocity.Y *= -1;
-                float delta = 0 - ballPosition.Y;
-                ballPosition.Y += 2 * delta;
+                ball.Velocity.X *= -1;
+                var delta = (AIpaddle.bounds.X + AIpaddle.bounds.Width) - (ball.Bounds.X + ball.Bounds.Radius);
+                ball.Bounds.X += -2 * delta;
             }
 
-            if (ballPosition.Y > graphics.PreferredBackBufferHeight - 100)
+            if (GameState == 0)  //if the game is still going, keeps moving. Stops moving if game is over
             {
-                ballVelocity.Y *= -1;
-                float delta = graphics.PreferredBackBufferHeight - 100 - ballPosition.Y;
-                ballPosition.Y += 2 * delta;
+                if (ball.Bounds.Y < AIpaddle.bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
+                {
+                    AIpaddle.bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1;
+                }
+
+                if (ball.Bounds.Y > AIpaddle.bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
+                {
+                    AIpaddle.bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1;
+                }
             }
 
-            if (ballPosition.X < 0)
-            {
-                ballVelocity.X *= -1;
-                float delta = 0 - ballPosition.X;
-                ballPosition.X += 2 * delta;
-                GameState = 2;          //the ball hit the left side of the boundary, meaning the player losses
-            }
 
-            if (ballPosition.X > graphics.PreferredBackBufferWidth - 100)
-            {
-                ballVelocity.X *= -1;
-                float delta = graphics.PreferredBackBufferWidth - 100 - ballPosition.X;
-                ballPosition.X += 2 * delta;
-                GameState = 1;         //the ball hit the right side of the boundary, meaning the player wins
-            }
 
-            //if statements for checking gamestate
-            if(GameState == 1)
-            {
-                //logic for printing YOU WIN followed by either closing or restarting the game
-            }
-
-            if(GameState == 2)
-            {
-                //logic for printing YOU LOSE followed by closing or restarting the game
-            }
 
             oldKeyboardState = newKeyboardState;   
 
@@ -176,7 +159,7 @@ namespace MonoGameWindowsStarter
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.Draw(GreenBall, new Rectangle((int)ballPosition.X, (int)ballPosition.Y, 100, 100), Color.White);   //draw green ball 
+            ball.Draw(spriteBatch);   //draw green ball 
             paddle.Draw(spriteBatch);
             AIpaddle.Draw(spriteBatch);
             if(GameState == 1)  //if you have won, draw the you win

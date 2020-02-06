@@ -34,6 +34,10 @@ namespace MonoGameWindowsStarter
             this.Height = height;
         }
 
+        /// <summary>
+        /// makes it into a legit rectangle
+        /// </summary>
+        /// <param name="br">the rectangle</param>
         public static implicit operator Rectangle(BoundingRectangle br)
         {
             return new Rectangle((int)br.X, (int)br.Y, (int)br.Width, (int)br.Height);

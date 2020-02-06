@@ -13,11 +13,11 @@ namespace MonoGameWindowsStarter
     public class PaddleAI
     {
         Game1 game;
-        
+        Ball ball;
 
         Texture2D texture;
 
-        BoundingRectangle bounds;
+        public BoundingRectangle bounds;
 
         /// <summary>
         /// Creates a paddle
@@ -28,31 +28,49 @@ namespace MonoGameWindowsStarter
             this.game = game;
         }
 
-        public void LoadContent(ContentManager content)
+        /// <summary>
+        /// initializes paddles, sets it size and its screen positioning
+        /// </summary>
+        public void Initialize()
         {
-            texture = content.Load<Texture2D>("pixel");
             bounds.Width = 50;
             bounds.Height = 200;
             bounds.X = 1550;
             bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - bounds.Height / 2;
         }
 
+        /// <summary>
+        /// Load in the paddles texture
+        /// </summary>
+        /// <param name="content">content manager to use</param>
+        public void LoadContent(ContentManager content)
+        {
+            texture = content.Load<Texture2D>("pixel");
+            
+        }
+
+        /// <summary>
+        /// gives the paddle movement based off the balls Y position
+        /// </summary>
+        /// <param name="gameTime">current gametime</param>
         public void Update(GameTime gameTime)
         {
             var newKeyboardState = Keyboard.GetState();
 
+            /*
             if (game.GameState == 0)  //if the game is still going, keeps moving. Stops moving if game is over
             {
-                if (game.ballPosition.Y < bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
+                if (ball.Bounds.Center.Y < bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
                 {
                     bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.75;
                 }
 
-                if (game.ballPosition.Y > bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
+                if (ball.Bounds.Center.Y > bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
                 {
-                    bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.5;
+                    bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.75;
                 }
             }
+            */
 
             if (bounds.Y < 0)
             {
@@ -65,6 +83,10 @@ namespace MonoGameWindowsStarter
             }
         }
 
+        /// <summary>
+        /// draws the paddle into the game
+        /// </summary>
+        /// <param name="spriteBatch">the spritebatch to use</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.DarkRed);

@@ -16,7 +16,7 @@ namespace MonoGameWindowsStarter
 
         Texture2D texture;
 
-        BoundingRectangle bounds;
+        public BoundingRectangle bounds;
 
         /// <summary>
         /// Creates a paddle
@@ -27,15 +27,31 @@ namespace MonoGameWindowsStarter
             this.game = game;
         }
 
-        public void LoadContent(ContentManager content)
+        /// <summary>
+        /// initializes paddles, sets it size and its screen positioning
+        /// </summary>
+        public void Initialize()
         {
-            texture = content.Load<Texture2D>("pixel");
             bounds.Width = 50;
             bounds.Height = 200;
             bounds.X = 0;
             bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - bounds.Height / 2;
         }
 
+        /// <summary>
+        /// Load in the paddles texture
+        /// </summary>
+        /// <param name="content">content manager to use</param>
+        public void LoadContent(ContentManager content)
+        {
+            texture = content.Load<Texture2D>("pixel");
+            
+        }
+
+        /// <summary>
+        /// gives the paddle keyboard input movement
+        /// </summary>
+        /// <param name="gameTime">current gametime</param>
         public void Update(GameTime gameTime)
         {
             var newKeyboardState = Keyboard.GetState();
@@ -64,6 +80,10 @@ namespace MonoGameWindowsStarter
             }
         }
 
+        /// <summary>
+        /// draws the paddle into the game
+        /// </summary>
+        /// <param name="spriteBatch">the spritebatch to use</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.Blue);

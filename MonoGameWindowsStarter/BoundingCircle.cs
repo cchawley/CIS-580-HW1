@@ -24,6 +24,20 @@ namespace MonoGameWindowsStarter
             }
         }
 
+        /// <summary>
+        /// makes the circle into a rectangle with tangental sides to replicate the look and feel of a circle
+        /// </summary>
+        /// <param name="c">the bounding circle</param>
+        public static implicit operator Rectangle(BoundingCircle c)
+        {
+            return new Rectangle(
+                (int)(c.X - c.Radius),
+                (int)(c.Y - c.Radius),
+                (int)(2 * c.Radius),
+                (int)(2 * c.Radius)
+                );
+        }
+        /*
         public bool CollidesWith(BoundingCircle other)
         {
             return (Math.Pow(this.Radius + other.Radius, 2) <= Math.Pow(this.X - other.X, 2) + Math.Pow(this.Y - other.Y, 2));
@@ -49,5 +63,6 @@ namespace MonoGameWindowsStarter
             }
             return value;
         }
+        */
     }
 }
