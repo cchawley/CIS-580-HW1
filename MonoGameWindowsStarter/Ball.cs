@@ -64,6 +64,18 @@ namespace MonoGameWindowsStarter
 
             Bounds.Center += 1.5f * (float)gameTime.ElapsedGameTime.TotalMilliseconds * Velocity;
 
+            if (game.BounceCounter == 10 || game.BounceCounter == 15 || game.BounceCounter == 25)  //ball will speed up as more paddle bounces occur
+            {
+                Velocity = Velocity * (float)1.005;
+            }
+            if (game.BounceCounter == 30)
+            {
+                Velocity = Velocity * (float)10;
+
+            }
+            
+
+
             if (game.GameState == 1 || game.GameState == 2)
             {
                 Velocity.X = 0;

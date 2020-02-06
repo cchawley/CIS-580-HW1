@@ -70,7 +70,7 @@ namespace MonoGameWindowsStarter
                     bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.75;
                 }
             }
-            */
+            */ //was getting an error so moved it to Game1.cs and it worked, not sure why but it works
 
             if (bounds.Y < 0)
             {

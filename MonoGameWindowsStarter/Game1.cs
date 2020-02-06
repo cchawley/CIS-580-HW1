@@ -24,6 +24,7 @@ namespace MonoGameWindowsStarter
         public int GameState = 0;   //used to track if the player has won or lost. Will be changed to a 1 when the ball hits the right boundary (win) and a 2 if it hits the left boundary (loss)
         public Random Random = new Random();
         Ball ball;  //used to create a ball using the Ball class
+        public int BounceCounter = 0;
 
         KeyboardState oldKeyboardState;
         KeyboardState newKeyboardState;
@@ -119,6 +120,7 @@ namespace MonoGameWindowsStarter
                 ball.Velocity.X *= -1;
                 var delta = (paddle.bounds.X + paddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
                 ball.Bounds.X += 2 * delta;
+                BounceCounter++;
             }
 
             if (AIpaddle.bounds.CollidesWith(ball.Bounds))
@@ -126,6 +128,7 @@ namespace MonoGameWindowsStarter
                 ball.Velocity.X *= -1;
                 var delta = (AIpaddle.bounds.X - AIpaddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
                 ball.Bounds.X += 2 * delta;
+                BounceCounter++;
             }
 
             if (GameState == 0)  //if the game is still going, keeps moving. Stops moving if game is over
@@ -133,11 +136,13 @@ namespace MonoGameWindowsStarter
                 if (ball.Bounds.Y < AIpaddle.bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
                 {
                     AIpaddle.bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1;
+                    
                 }
 
                 if (ball.Bounds.Y > AIpaddle.bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
                 {
                     AIpaddle.bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1;
+                    
                 }
             }
 
