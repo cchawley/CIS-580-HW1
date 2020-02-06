@@ -12,13 +12,11 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D GreenBall;
         Texture2D YouWin;     //variable for the you win text
         Rectangle win;
         Texture2D YouLose;     //variable for the you lose text
         Rectangle lose;
         public Vector2 ballPosition = Vector2.Zero; 
-        Vector2 ballVelocity;
         Paddle paddle;  //player paddle
         PaddleAI AIpaddle; //enemy paddle
         public int GameState = 0;   //used to track if the player has won or lost. Will be changed to a 1 when the ball hits the right boundary (win) and a 2 if it hits the left boundary (loss)

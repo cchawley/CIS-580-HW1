@@ -13,7 +13,7 @@ namespace MonoGameWindowsStarter
     public class PaddleAI
     {
         Game1 game;
-        Ball ball;
+        //Ball ball;
 
         Texture2D texture;
 
