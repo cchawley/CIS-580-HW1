@@ -54,10 +54,13 @@ namespace MonoGameWindowsStarter
             Bounds.Y = game.GraphicsDevice.Viewport.Height / 2;
 
             // give the ball a random velocity
+            
             Velocity = new Vector2(
-                (float)game.Random.NextDouble(),
-                (float)game.Random.NextDouble()
+                (float)game.Random.NextDouble() * (float)0.005,
+                (float)game.Random.NextDouble() * (float)0.005
             );
+            
+            
             Velocity.Normalize();
         }
 
@@ -81,13 +84,13 @@ namespace MonoGameWindowsStarter
         {
             var viewport = game.GraphicsDevice.Viewport;
 
-            Bounds.Center += 1.5f * (float)gameTime.ElapsedGameTime.TotalMilliseconds * Velocity;
+            Bounds.Center += 1.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds * Velocity;
 
-            if (game.BounceCounter == 10 || game.BounceCounter == 15 || game.BounceCounter == 25)  //ball will speed up as more paddle bounces occur
+            if (game.BounceCounter == 9 || game.BounceCounter == 15 || game.BounceCounter == 21)  //ball will speed up as more paddle bounces occur
             {
                 Velocity = Velocity * (float)1.005;
             }
-            if (game.BounceCounter == 30)
+            if (game.BounceCounter == 26)
             {
                 Velocity = Velocity * (float)10;
 

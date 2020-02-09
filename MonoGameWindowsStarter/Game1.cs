@@ -121,7 +121,7 @@ namespace MonoGameWindowsStarter
                 BounceCounter++;
             }
 
-            if (AIpaddle.bounds.CollidesWith(ball.Bounds))
+            if (AIpaddle.bounds.CollidesWith(ball.Bounds))  //if the AIpaddle collides with the ball, the ball bounces off
             {
                 ball.Velocity.X *= -1;
                 var delta = (AIpaddle.bounds.X - AIpaddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
