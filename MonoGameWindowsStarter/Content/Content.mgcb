@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:E:/game pics/You_win.png;You_win.png
 
+#begin Explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Explosion.wav
+
 #begin green ball.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -48,6 +54,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:green ball.png
+
+#begin Norm_Bounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Norm_Bounce.wav
+
+#begin Paddle_Bounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Paddle_Bounce.wav
 
 #begin pixel.png
 /importer:TextureImporter
