@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGameWindowsStarter
 {
@@ -23,6 +24,11 @@ namespace MonoGameWindowsStarter
         public Random Random = new Random();
         Ball ball;  //used to create a ball using the Ball class
         public int BounceCounter = 0;
+
+        /// <summary>
+        /// sound for the ball bouncing off a paddle
+        /// </summary>
+        SoundEffect paddle_Bounce;
 
         KeyboardState oldKeyboardState;
         KeyboardState newKeyboardState;
@@ -84,7 +90,8 @@ namespace MonoGameWindowsStarter
             AIpaddle.LoadContent(Content);                //load in the enemy pixel paddle
             YouWin = Content.Load<Texture2D>("You_win");     //load in the you win texture
             YouLose = Content.Load<Texture2D>("game_over");  //load in the you lose texture
-            
+            paddle_Bounce = Content.Load<SoundEffect>("Paddle_Bounce"); // load in paddle bounce sound
+
         }
 
         /// <summary>
@@ -119,6 +126,7 @@ namespace MonoGameWindowsStarter
                 var delta = (paddle.bounds.X + paddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
                 ball.Bounds.X += 2 * delta;
                 BounceCounter++;
+                paddle_Bounce.Play();
             }
 
             if (AIpaddle.bounds.CollidesWith(ball.Bounds))  //if the AIpaddle collides with the ball, the ball bounces off
@@ -127,21 +135,23 @@ namespace MonoGameWindowsStarter
                 var delta = (AIpaddle.bounds.X - AIpaddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
                 ball.Bounds.X += 2 * delta;
                 BounceCounter++;
+                paddle_Bounce.Play();
             }
 
             if (GameState == 0)  //if the game is still going, keeps moving. Stops moving if game is over
             {
                 if (ball.Bounds.Y < AIpaddle.bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
                 {
-                    AIpaddle.bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1;
+                    AIpaddle.bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.25;
                     
                 }
 
                 if (ball.Bounds.Y > AIpaddle.bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
                 {
-                    AIpaddle.bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1;
+                    AIpaddle.bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.25;
                     
-                }
+                }  //the AI paddle doesn't always look smooth, not sure how to fix this issue. Also, it seems that if the ball is going fast enough and it hits the corner, it will register
+                //as a game over because it hits the wall before the game can turn it around. Also need to find a fix. 
             }
 
 
@@ -158,7 +168,7 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.MintCream);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();

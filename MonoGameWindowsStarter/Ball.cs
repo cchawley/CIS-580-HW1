@@ -22,10 +22,6 @@ namespace MonoGameWindowsStarter
         /// </summary>
         SoundEffect norm_bounce;
 
-        /// <summary>
-        /// sound for the ball bouncing off a paddle
-        /// </summary>
-        SoundEffect paddle_Bounce;
 
         /// <summary>
         /// sound effect for when the ball hits a left or right wall and the game ends
@@ -70,10 +66,9 @@ namespace MonoGameWindowsStarter
         /// <param name="content">which contentmanager to use</param>
         public void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("green ball");
-            norm_bounce = content.Load<SoundEffect>("Norm_Bounce");
-            paddle_Bounce = content.Load<SoundEffect>("Paddle_Bounce");
-            explosion = content.Load<SoundEffect>("Explosion");
+            texture = content.Load<Texture2D>("green ball");  //load in green ball texter
+            norm_bounce = content.Load<SoundEffect>("Norm_Bounce"); //load in normal bounce sound
+            explosion = content.Load<SoundEffect>("Explosion");  //load in explosion sound
         }
 
         /// <summary>
@@ -86,13 +81,13 @@ namespace MonoGameWindowsStarter
 
             Bounds.Center += 1.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds * Velocity;
 
-            if (game.BounceCounter == 9 || game.BounceCounter == 15 || game.BounceCounter == 21)  //ball will speed up as more paddle bounces occur
+            if (game.BounceCounter == 9 || game.BounceCounter == 15)  //ball will speed up as more paddle bounces occur
             {
                 Velocity = Velocity * (float)1.005;
             }
             if (game.BounceCounter == 26)
             {
-                Velocity = Velocity * (float)10;
+                Velocity = Velocity * (float)2;
 
             }
             
