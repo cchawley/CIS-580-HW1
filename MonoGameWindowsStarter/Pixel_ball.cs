@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameWindowsStarter
@@ -14,15 +15,14 @@ namespace MonoGameWindowsStarter
     /// <summary>
     /// enum for telling what state the ball is in
     /// </summary>
-    enum State
+    public enum State
     {
-        Idle = 0,
-        right1 = 1,
-        right2 = 2,
-        right3 = 3,
-        left1 = 4,
-        left2 = 5,
-        left3 = 6
+        right = 0,
+        up = 1,
+        down = 2,
+        left = 3,
+        Idle = 4
+        
     }
 
     public class Pixel_ball
@@ -42,7 +42,7 @@ namespace MonoGameWindowsStarter
         Game1 game;
 
         Texture2D texture;
-        State state;
+        public State state;
         TimeSpan timer;
         int frame;
         public BoundingCircle Bounds;
@@ -84,9 +84,9 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// Loads the sprite's content
         /// </summary>
-        public void LoadContent()
+        public void LoadContent(ContentManager content)
         {
-            texture = game.Content.Load<Texture2D>("ball right bounce");
+            texture = game.Content.Load<Texture2D>("BallBounce");
             font = game.Content.Load<SpriteFont>("Font");
         }
 
@@ -118,14 +118,15 @@ namespace MonoGameWindowsStarter
             // check for wall collision
             if (Bounds.Center.Y < Bounds.Radius)
             {
-                state = State.Idle; //can add in a state for top and bottom bounce animations
+                state = State.down; //can add in a state for top and bottom bounce animations
                 Velocity.Y *= -1;
                 float delta = Bounds.Radius - Bounds.Y;  
                 Bounds.Y += 2 * delta;
+                
             }
             else if (Bounds.Center.Y > viewport.Height - Bounds.Radius)
             {
-                state = State.Idle;
+                state = State.up;
                 Velocity.Y *= -1;
                 float delta = viewport.Height - Bounds.Radius - Bounds.Y;
                 Bounds.Y += 2 * delta;
@@ -147,7 +148,7 @@ namespace MonoGameWindowsStarter
             }
             else state = State.Idle;
 
-            // Update the player animation timer when the player is moving
+            // Update the player animation timer when the ball bounces
             if (state != State.Idle) timer += gameTime.ElapsedGameTime;
 
             // Determine the frame should increase.  Using a while 
