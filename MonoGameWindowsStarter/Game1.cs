@@ -13,6 +13,7 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont spriteFont;
         Texture2D YouWin;     //variable for the you win text
         Rectangle win;
         Texture2D YouLose;     //variable for the you lose text
@@ -91,7 +92,7 @@ namespace MonoGameWindowsStarter
             YouWin = Content.Load<Texture2D>("You_win");     //load in the you win texture
             YouLose = Content.Load<Texture2D>("game_over");  //load in the you lose texture
             paddle_Bounce = Content.Load<SoundEffect>("Paddle_Bounce"); // load in paddle bounce sound
-
+            spriteFont = Content.Load<SpriteFont>("Font");
         }
 
         /// <summary>
@@ -177,12 +178,14 @@ namespace MonoGameWindowsStarter
             AIpaddle.Draw(spriteBatch);
             if(GameState == 1)  //if you have won, draw the you win
             {
-                spriteBatch.Draw(YouWin, win, Color.White);
+                //spriteBatch.Draw(YouWin, win, Color.White);
+                spriteBatch.DrawString(spriteFont, "You Win! :)", new Vector2(630, 450), Color.Blue);
             }
 
             if (GameState == 2) //if you have lost, draw the you lose
             {
-                spriteBatch.Draw(YouLose, lose, Color.White);
+                //spriteBatch.Draw(YouLose, lose, Color.White);
+                spriteBatch.DrawString(spriteFont, "You Lose! :(", new Vector2(630, 450), Color.Red);
             }
 
             spriteBatch.End();
