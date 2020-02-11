@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+
 
 namespace MonoGameWindowsStarter
 {
@@ -48,6 +50,8 @@ namespace MonoGameWindowsStarter
         public BoundingCircle Bounds;
         SpriteFont font;
         public Vector2 Velocity;
+        SoundEffect explosion;
+        SoundEffect norm_bounce;
 
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace MonoGameWindowsStarter
         public void Initialize()
         {
             // Set the ball's radius
-            Bounds.Radius = 25;
+            Bounds.Radius = 40;
 
             // position the ball in the center of the screen
             Bounds.X = game.GraphicsDevice.Viewport.Width / 2;
@@ -88,6 +92,8 @@ namespace MonoGameWindowsStarter
         {
             texture = game.Content.Load<Texture2D>("BallBounce");
             font = game.Content.Load<SpriteFont>("Font");
+            explosion = content.Load<SoundEffect>("Explosion");  //load in explosion sound
+            norm_bounce = content.Load<SoundEffect>("Norm_Bounce"); //load in normal bounce sound
         }
 
         public void Update(GameTime gameTime)
@@ -122,7 +128,7 @@ namespace MonoGameWindowsStarter
                 Velocity.Y *= -1;
                 float delta = Bounds.Radius - Bounds.Y;  
                 Bounds.Y += 2 * delta;
-                
+                norm_bounce.Play();
             }
             else if (Bounds.Center.Y > viewport.Height - Bounds.Radius)
             {
@@ -130,6 +136,7 @@ namespace MonoGameWindowsStarter
                 Velocity.Y *= -1;
                 float delta = viewport.Height - Bounds.Radius - Bounds.Y;
                 Bounds.Y += 2 * delta;
+                norm_bounce.Play();
             }
             else if (Bounds.X < 0)
             {
@@ -138,6 +145,7 @@ namespace MonoGameWindowsStarter
                 Bounds.X += 2 * delta;
                 //Velocity = Vector2.Zero;
                 game.GameState = 2;          //the ball hit the left side of the boundary, meaning the player losses;
+                explosion.Play();
             }
             else if (Bounds.X > viewport.Width - Bounds.Radius)
             {
@@ -145,6 +153,7 @@ namespace MonoGameWindowsStarter
                 float delta = viewport.Width - Bounds.Radius - Bounds.X;
                 Bounds.X += 2 * delta;
                 game.GameState = 1;         //the ball hit the right side of the boundary, meaning the player wins
+                explosion.Play();
             }
             else state = State.Idle;
 
