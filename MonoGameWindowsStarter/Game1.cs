@@ -139,12 +139,12 @@ namespace MonoGameWindowsStarter
             {
                 if (ball.Bounds.Y < AIpaddle.bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
                 {
-                    AIpaddle.bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.25;
+                    AIpaddle.bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.0;
                     AIpaddle.AIpstate = AIPaddleState.up;
                 }
                 else if (ball.Bounds.Y > AIpaddle.bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
                 {
-                    AIpaddle.bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.25;
+                    AIpaddle.bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.0;
                     AIpaddle.AIpstate = AIPaddleState.down;
                 }  //the AI paddle doesn't always look smooth, not sure how to fix this issue. Also, it seems that if the ball is going fast enough and it hits the corner, it will register
                 else AIpaddle.AIpstate = AIPaddleState.Idle;//as a game over because it hits the wall before the game can turn it around. Also need to find a fix. 

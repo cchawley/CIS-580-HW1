@@ -109,6 +109,23 @@ namespace MonoGameWindowsStarter
             {
                 bounds.Y = game.GraphicsDevice.Viewport.Height - bounds.Height;
             }
+
+            // Update the player animation timer when the player is moving
+            if (AIpstate != AIPaddleState.Idle) timer += gameTime.ElapsedGameTime;
+
+            // Determine the frame should increase.  Using a while 
+            // loop will accomodate the possiblity the animation should 
+            // advance more than one frame.
+            while (timer.TotalMilliseconds > ANIMATION_FRAME_RATE)
+            {
+                // increase by one frame
+                frame++;
+                // reduce the timer by one frame duration
+                timer -= new TimeSpan(0, 0, 0, 0, ANIMATION_FRAME_RATE);
+            }
+
+            // Keep the frame within bounds (there are four frames)
+            frame %= 4;
         }
 
         /// <summary>
@@ -117,7 +134,28 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">the spritebatch to use</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, bounds, Color.DarkRed);
+            // determine the source rectagle of the sprite's current frame
+            var source = new Rectangle(
+                frame * FRAME_WIDTH, // X value 
+                (int)AIpstate % 4 * FRAME_HEIGHT, // Y value
+                FRAME_WIDTH, // Width 
+                FRAME_HEIGHT // Height
+                );
+
+            var source2 = new Rectangle(
+                0, // X value 
+                0, // Y value
+                FRAME_WIDTH, // Width 
+                FRAME_HEIGHT // Height
+                );
+
+            // render the sprite
+            spriteBatch.Draw(texture, bounds, source, Color.White);
+
+            if (AIpstate == AIPaddleState.Idle)
+            {
+                spriteBatch.Draw(texture, bounds, source2, Color.White);
+            }
         }
     }
 }
