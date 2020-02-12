@@ -17,7 +17,7 @@ namespace MonoGameWindowsStarter
         Idle = 2
     }
 
-    public class PaddleAI
+    public class PaddleAI 
     {
         Game1 game;
         //Ball ball;
@@ -26,7 +26,7 @@ namespace MonoGameWindowsStarter
         /// How quickly the animation should advance frames (1/8 second as milliseconds)
         /// </summary>
         const int ANIMATION_FRAME_RATE = 124;
-
+        Ball ball;  //used to create a ball using the Ball class
 
         /// <summary>
         /// The width of the animation frames
@@ -37,6 +37,11 @@ namespace MonoGameWindowsStarter
         /// The hieght of the animation frames
         /// </summary>
         const int FRAME_HEIGHT = 149;
+
+        /// <summary>
+        /// How quickly the player should move
+        /// </summary>
+        public const float PLAYER_SPEED = 1;
 
         Texture2D texture;
 
@@ -88,17 +93,18 @@ namespace MonoGameWindowsStarter
             /*
             if (game.GameState == 0)  //if the game is still going, keeps moving. Stops moving if game is over
             {
-                if (ball.Bounds.Center.Y < bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
+                if (ball.Bounds.Y < bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
                 {
-                    bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.75;
+                    bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * PLAYER_SPEED;
                 }
 
-                if (ball.Bounds.Center.Y > bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
+                if (ball.Bounds.Y > bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
                 {
-                    bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)0.75;
+                    bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * PLAYER_SPEED;
                 }
             }
-            */ //was getting an error so moved it to Game1.cs and it worked, not sure why but it works
+             //was getting an error so moved it to Game1.cs and it worked, not sure why but it works
+             */
 
             if (bounds.Y < 0)
             {

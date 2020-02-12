@@ -52,7 +52,7 @@ namespace MonoGameWindowsStarter
             // give the ball a random velocity
             
             Velocity = new Vector2(
-                (float)game.Random.Next(1,10) * (float)0.005,
+                (float)game.Random.NextDouble() * (float)0.005,
                 (float)game.Random.NextDouble() * (float)0.005
             );
             
