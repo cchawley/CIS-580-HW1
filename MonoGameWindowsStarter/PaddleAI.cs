@@ -10,14 +10,40 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MonoGameWindowsStarter
 {
+    public enum AIPaddleState
+    {
+        up = 1,
+        down = 0,
+        Idle = 2
+    }
+
     public class PaddleAI
     {
         Game1 game;
         //Ball ball;
 
+        /// <summary>
+        /// How quickly the animation should advance frames (1/8 second as milliseconds)
+        /// </summary>
+        const int ANIMATION_FRAME_RATE = 124;
+
+
+        /// <summary>
+        /// The width of the animation frames
+        /// </summary>
+        const int FRAME_WIDTH = 15;
+
+        /// <summary>
+        /// The hieght of the animation frames
+        /// </summary>
+        const int FRAME_HEIGHT = 149;
+
         Texture2D texture;
 
         public BoundingRectangle bounds;
+        public AIPaddleState AIpstate;
+        TimeSpan timer;
+        int frame;
 
         /// <summary>
         /// Creates a paddle
@@ -26,6 +52,8 @@ namespace MonoGameWindowsStarter
         public PaddleAI(Game1 game)
         {
             this.game = game;
+            AIpstate = AIPaddleState.Idle;
+            timer = new TimeSpan(0);
         }
 
         /// <summary>
@@ -45,8 +73,8 @@ namespace MonoGameWindowsStarter
         /// <param name="content">content manager to use</param>
         public void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("pixel");
-            
+            //texture = content.Load<Texture2D>("pixel");
+            texture = game.Content.Load<Texture2D>("Right_paddle");
         }
 
         /// <summary>

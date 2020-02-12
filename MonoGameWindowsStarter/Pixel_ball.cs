@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
-
+//couldn't figure out how to get the ball to correctly animate when hitting walls and paddle, so scratched the idea for the time being. May come back to in the future
 namespace MonoGameWindowsStarter
 {
 
@@ -33,13 +33,13 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// animation frame rate
         /// </summary>
-        const int Animation_Frame_Rate = 124;
+        const int Animation_Frame_Rate = 90;
 
         const float Ball_Speed = 100;
 
-        const int Frame_Width = 50;
+        const int Frame_Width = 29;
 
-        const int Frame_Height = 50;
+        const int Frame_Height = 31;
 
         Game1 game;
 
@@ -48,7 +48,6 @@ namespace MonoGameWindowsStarter
         TimeSpan timer;
         int frame;
         public BoundingCircle Bounds;
-        SpriteFont font;
         public Vector2 Velocity;
         SoundEffect explosion;
         SoundEffect norm_bounce;
@@ -67,8 +66,8 @@ namespace MonoGameWindowsStarter
 
         public void Initialize()
         {
-            // Set the ball's radius
-            Bounds.Radius = 40;
+            // Set the ball's radius for some reason, Game calculations start getting janky when I increase past 25, not sure why
+            Bounds.Radius = 25;
 
             // position the ball in the center of the screen
             Bounds.X = game.GraphicsDevice.Viewport.Width / 2;
@@ -90,8 +89,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         public void LoadContent(ContentManager content)
         {
-            texture = game.Content.Load<Texture2D>("BallBounce");
-            font = game.Content.Load<SpriteFont>("Font");
+            texture = game.Content.Load<Texture2D>("Ball");
             explosion = content.Load<SoundEffect>("Explosion");  //load in explosion sound
             norm_bounce = content.Load<SoundEffect>("Norm_Bounce"); //load in normal bounce sound
         }
@@ -101,7 +99,8 @@ namespace MonoGameWindowsStarter
             var viewport = game.GraphicsDevice.Viewport;
 
             Bounds.Center += 1.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds * Velocity;
-            
+            float charlie = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
 
             if (game.BounceCounter == 9 || game.BounceCounter == 15)  //ball will speed up as more paddle bounces occur
             {
@@ -127,7 +126,7 @@ namespace MonoGameWindowsStarter
                 state = State.down; //can add in a state for top and bottom bounce animations
                 Velocity.Y *= -1;
                 float delta = Bounds.Radius - Bounds.Y;  
-                Bounds.Y += 2 * delta;
+                Bounds.Y += 2 * delta * charlie;
                 norm_bounce.Play();
             }
             else if (Bounds.Center.Y > viewport.Height - Bounds.Radius)
@@ -135,14 +134,14 @@ namespace MonoGameWindowsStarter
                 state = State.up;
                 Velocity.Y *= -1;
                 float delta = viewport.Height - Bounds.Radius - Bounds.Y;
-                Bounds.Y += 2 * delta;
+                Bounds.Y += 2 * delta * charlie;
                 norm_bounce.Play();
             }
             else if (Bounds.X < 0)
             {
                 Velocity.X *= -1;
                 float delta = Bounds.Radius - Bounds.X;  // can add in an explosion animation
-                Bounds.X += 2 * delta;
+                Bounds.X += 2 * delta * charlie;
                 //Velocity = Vector2.Zero;
                 game.GameState = 2;          //the ball hit the left side of the boundary, meaning the player losses;
                 explosion.Play();
@@ -151,7 +150,7 @@ namespace MonoGameWindowsStarter
             {
                 Velocity.X *= -1;
                 float delta = viewport.Width - Bounds.Radius - Bounds.X;
-                Bounds.X += 2 * delta;
+                Bounds.X += 2 * delta * charlie;
                 game.GameState = 1;         //the ball hit the right side of the boundary, meaning the player wins
                 explosion.Play();
             }
@@ -192,8 +191,7 @@ namespace MonoGameWindowsStarter
             // render the sprite
             spriteBatch.Draw(texture, Bounds, source, Color.White);
 
-            // render the sprite's coordinates in the upper-right-hand corner of the screen
-            spriteBatch.DrawString(font, $"X:{Bounds.X} Y:{Bounds.Y}", Vector2.Zero, Color.White);
+            
         }
     }
    

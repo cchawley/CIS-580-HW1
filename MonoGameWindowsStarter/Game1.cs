@@ -25,7 +25,7 @@ namespace MonoGameWindowsStarter
         public Random Random = new Random();
         Ball ball;  //used to create a ball using the Ball class
         public int BounceCounter = 0;
-        Pixel_ball PBall;
+        
 
         /// <summary>
         /// sound for the ball bouncing off a paddle
@@ -42,7 +42,7 @@ namespace MonoGameWindowsStarter
             paddle = new Paddle(this);
             AIpaddle = new PaddleAI(this);
             ball = new Ball(this);
-            PBall = new Pixel_ball(this);
+            
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace MonoGameWindowsStarter
             ball.Initialize();
             paddle.Initialize();
             AIpaddle.Initialize();
-            PBall.Initialize();
+            
 
             
             base.Initialize();
@@ -82,7 +82,7 @@ namespace MonoGameWindowsStarter
             ball.LoadContent(Content);    // load in green ball
             paddle.LoadContent(Content);                   //load in the pixel paddle
             AIpaddle.LoadContent(Content);                //load in the enemy pixel paddle
-            PBall.LoadContent(Content);
+            
             paddle_Bounce = Content.Load<SoundEffect>("Paddle_Bounce"); // load in paddle bounce sound
             spriteFont = Content.Load<SpriteFont>("Font");
         }
@@ -112,14 +112,14 @@ namespace MonoGameWindowsStarter
             ball.Update(gameTime);
             paddle.Update(gameTime);
             AIpaddle.Update(gameTime);
-            PBall.Update(gameTime);
+            
 
             if (paddle.bounds.CollidesWith(ball.Bounds)) //if the player paddle collides with the ball, the ball bounces off
             {
                 ball.Velocity.X *= -1;
                 var delta = (paddle.bounds.X + paddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
                 ball.Bounds.X += 2 * delta;
-                PBall.state = State.left;
+                //ball.state = State.left;
                 BounceCounter++;
                 paddle_Bounce.Play();
 
@@ -130,7 +130,7 @@ namespace MonoGameWindowsStarter
                 ball.Velocity.X *= -1;
                 var delta = (AIpaddle.bounds.X - AIpaddle.bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
                 ball.Bounds.X += 2 * delta;
-                PBall.state = State.right;
+                //ball.state = State.right;
                 BounceCounter++;
                 paddle_Bounce.Play();
             }
@@ -140,15 +140,14 @@ namespace MonoGameWindowsStarter
                 if (ball.Bounds.Y < AIpaddle.bounds.Y)           //if the balls Y position is less than the paddles Y, then move paddle up
                 {
                     AIpaddle.bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.25;
-                    
+                    AIpaddle.AIpstate = AIPaddleState.up;
                 }
-
-                if (ball.Bounds.Y > AIpaddle.bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
+                else if (ball.Bounds.Y > AIpaddle.bounds.Y)           //if the balls Y position is greater than the paddles Y, then move paddle down
                 {
                     AIpaddle.bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds * (float)1.25;
-                    
+                    AIpaddle.AIpstate = AIPaddleState.down;
                 }  //the AI paddle doesn't always look smooth, not sure how to fix this issue. Also, it seems that if the ball is going fast enough and it hits the corner, it will register
-                //as a game over because it hits the wall before the game can turn it around. Also need to find a fix. 
+                else AIpaddle.AIpstate = AIPaddleState.Idle;//as a game over because it hits the wall before the game can turn it around. Also need to find a fix. 
             }
 
 
@@ -172,7 +171,7 @@ namespace MonoGameWindowsStarter
             ball.Draw(spriteBatch);   //draw green ball 
             paddle.Draw(spriteBatch);
             AIpaddle.Draw(spriteBatch);
-            PBall.Draw(spriteBatch);
+            
             if(GameState == 1)  //if you have won, draw the you win
             {
                 //spriteBatch.Draw(YouWin, win, Color.White);
