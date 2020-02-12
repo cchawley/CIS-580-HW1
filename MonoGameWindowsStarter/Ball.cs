@@ -87,7 +87,7 @@ namespace MonoGameWindowsStarter
             }
             if (game.BounceCounter == 26)
             {
-                Velocity = Velocity * (float)2;
+                Velocity = Velocity * (float)1.1;
 
             }
             
